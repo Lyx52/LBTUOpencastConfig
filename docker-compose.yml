@@ -1,0 +1,33 @@
+version: "3"
+
+volumes:
+  opensearch: {}
+  data: {}
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:1
+    environment:
+      discovery.type: single-node
+      bootstrap.memory_lock: true
+      OPENSEARCH_JAVA_OPTS: -Xms128m -Xmx512m
+      DISABLE_INSTALL_DEMO_CONFIG: true
+      DISABLE_SECURITY_PLUGIN: true
+    volumes:
+      - opensearch:/usr/share/opensearch/data
+
+  opencast:
+    image: quay.io/opencast/allinone:13.5
+    environment:
+      ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: opencast
+      ELASTICSEARCH_SERVER_HOST: opensearch
+    ports:
+      - "8080:8080"
+    volumes:
+      #- ./workflows/:/etc/opencast/workflows/
+      - data:/data

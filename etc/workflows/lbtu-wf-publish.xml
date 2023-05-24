@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definition xmlns="http://workflow.opencastproject.org">
+  <id>lbtu-wf-publish</id>
+  <title>Publish combined videos</title>
+  <description>Workflow that publishes combined video to engage</description>
+  <operations>
+    <operation
+      id="select-tracks"
+      exception-handler-workflow="partial-error"
+      description="Selecting audio/video streams for processing">
+      <configurations>
+        <configuration key="source-flavor">${source-type}/combined</configuration>
+        <configuration key="target-flavor">${source-type}/work</configuration>
+        <configuration key="target-tags">-archive</configuration>
+        <configuration key="audio-muxing">duplicate</configuration>
+      </configurations>
+    </operation>
+
+    <operation
+      id="analyze-tracks"
+      exception-handler-workflow="partial-error"
+      description="Analyzing tracks in media package and setting control variables">
+      <configurations>
+        <configuration key="source-flavor">${source-type}/work</configuration>
+      </configurations>
+    </operation>
+
+    <!-- Create a cover image with the default template -->
+	<operation
+	  id="log"
+	  description="Log to system logger">
+	</operation>
+	
+    <operation
+      id="cover-image"
+      fail-on-error="true"
+      exception-handler-workflow="partial-error"
+      description="Create a cover image">
+      <configurations>
+        <configuration key="stylesheet">file://${karaf.etc}/branding/coverimage.xsl</configuration>
+        <configuration key="width">1920</configuration>
+        <configuration key="height">1080</configuration>
+        <configuration key="posterimage-flavor">${source-type}/coverbackground</configuration>
+        <configuration key="target-flavor">${source-type}/player+preview</configuration>
+        <configuration key="target-tags">engage-download</configuration>
+     </configurations>
+    </operation>
+
+    <!-- Generate timeline preview images -->
+
+    <operation
+      id="timelinepreviews"
+      fail-on-error="false"
+      exception-handler-workflow="partial-error"
+      description="Creating timeline preview images">
+      <configurations>
+        <configuration key="source-flavor">${source-type}/trimmed</configuration>
+        <configuration key="target-flavor">${source-type}/timeline+preview</configuration>
+        <configuration key="target-tags">engage-download</configuration>
+        <configuration key="image-count">100</configuration>
+      </configurations>
+    </operation>
+
+    <!-- to Engage player format                             -->
+
+    <operation
+      id="encode"
+      exception-handler-workflow="partial-error"
+      description="Encoding videos to mp4 delivery format">
+      <configurations>
+        <configuration key="source-flavor">${source-type}/work</configuration>
+        <configuration key="target-flavor">${source-type}/delivery</configuration>
+        <configuration key="target-tags">engage-download,engage-streaming,archive</configuration>
+        <configuration key="encoding-profile">adaptive-parallel.http</configuration>
+      </configurations>
+    </operation>
+
+    <!-- Publish to engage player -->
+
+    <operation
+      id="publish-engage"
+      max-attempts="2"
+      exception-handler-workflow="partial-error"
+      description="Publishing to Opencast Media Module">
+      <configurations>
+        <configuration key="download-source-flavors">dublincore/*,security/*,captions/*</configuration>
+        <configuration key="download-source-tags">engage-download,atom,rss</configuration>
+        <configuration key="streaming-source-tags">engage-streaming</configuration>
+        <configuration key="check-availability">true</configuration>
+      </configurations>
+    </operation>
+	
+	<!-- Remove combined from archive-->
+	
+	<operation
+	  id="tag"
+	  description="Changing flavor of source elements">
+	  <configurations>
+		<configuration key="source-flavors">*/combined,*/work,*/source</configuration>
+		<configuration key="target-tags">-archive</configuration>
+	  </configurations>
+	</operation>
+	
+	<!-- Archive ingested files -->
+	<operation
+		id="snapshot"
+		description="Archive raw recording after ingest">
+		<configurations>
+			<configuration key="source-tags">archive,engage-download,atom,rss,engage-streaming</configuration>
+		</configurations>
+	</operation>
+  </operations>
+</definition>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definition xmlns="http://workflow.opencastproject.org">
+	<id>lbtu-wf-ingest</id>
+	<title>LBTU Conference Ingest Workflow</title>
+	<description>Workflow that finalizes workflow processes</description>
+	<operations>
+		<!-- Finalize ingest -->
+	
+		<operation
+			id="include"
+		    description="Finalize upload and ingest">
+			<configurations>	
+				<configuration key="workflow-id">partial-ingest</configuration>
+			</configurations>
+		</operation>
+	
+	
+		<!-- Archive ingested files -->
+		<operation
+			id="snapshot"
+		    description="Archive raw recording after ingest">
+			<configurations>
+				<configuration key="source-tags">archive</configuration>
+			</configurations>
+		</operation>
+	</operations>
+</definition>

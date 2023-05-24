@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definition xmlns="http://workflow.opencastproject.org">
+	<id>lbtu-wf-upload</id>
+	<title>LBTU Conference Upload Workflow</title>
+	<description>Workflow that processes videos from conferences</description>
+	<operations>
+		<operation
+			id="defaults"
+		    description="Applying default configuration values">
+			<configurations>
+				<configuration key="straightToPublishing">true</configuration>
+			</configurations>
+		</operation>
+	
+		<!--  Ingest videos -->
+	
+		<operation
+			id="include"
+		    description="Finalizes ingesting of conference recordings">
+			<configurations>
+				<configuration key="workflow-id">lbtu-wf-ingest</configuration>
+			</configurations>
+		</operation>
+	
+		<!--  Combine videos -->
+	
+		<operation
+			id="include"
+		    description="Combines presenter and room-composite sources">
+			<configurations>
+				<configuration key="workflow-id">lbtu-wf-combine</configuration>
+			</configurations>
+		</operation>
+	
+		<!-- Prepare and publish combined recordings -->
+	
+		<operation
+			id="include"
+			description="Combines presenter and room-composite sources">
+			<configurations>
+				<configuration key="workflow-id">lbtu-wf-selective-publish</configuration>
+			</configurations>
+		</operation>
+	</operations>
+</definition>
