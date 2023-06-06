@@ -1,3 +1,5 @@
+mkdir data
+
 OPENCAST_REPO     ?= https://github.com/opencast/opencast.git
 OPENCAST_VERSION  ?= $(shell cat VERSION_OPENCAST)
 
@@ -36,8 +38,6 @@ build-%:
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(IMAGE_TAG)" \
 		-t "lbtu-opencast:latest" \
-		-t "lbtu-opencast:$(IMAGE_TAG)" \
-		-t "lbtu-opencast:$(IMAGE_TAG_MAJOR)" \
 		$(DOCKER_BUILD_ARGS) \
 		-f Dockerfile \
 		.

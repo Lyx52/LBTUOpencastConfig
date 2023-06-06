@@ -10,3 +10,5 @@ VERSION
 VERSION_FFMPEG
 VERSION_OPENCAST
 tests
+prod.env
+dev.env
