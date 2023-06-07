@@ -11,7 +11,6 @@ services:
       - prod.opensearch.env
     volumes:
       - opensearch:/usr/share/opensearch/data
-
   opencast:
     image: lbtu-opencast:latest
     env_file:
