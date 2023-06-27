@@ -3,6 +3,7 @@ version: "3.9"
 volumes:
   opensearch: {}
   data: {}
+  pgdata: {}
 
 services:
   opensearch:
@@ -20,3 +21,9 @@ services:
       - "8080:8080"
     volumes:
       - ./data:/data
+  postgresql:
+    image: postgres:13-alpine
+    env_file:
+      - prod.db.env
+    volumes:
+      - db:/var/lib/postgresql/data

@@ -78,20 +78,11 @@
 	<!-- Remove source files from archive -->
 	
 	<operation
-	  id="tag"
-	  description="Remove source files from archive">
-	  <configurations>
+		id="tag"
+		description="Remove source files from archive">
+		<configurations>
 		<configuration key="source-flavors">*/source</configuration>
 		<configuration key="target-tags">-archive</configuration>
-	  </configurations>
-	</operation>
-	
-	<!-- Archive combined files -->
-	<operation
-		id="snapshot"
-		description="Archive combined videos">
-		<configurations>
-			<configuration key="source-tags">archive</configuration>
 		</configurations>
 	</operation>
   </operations>

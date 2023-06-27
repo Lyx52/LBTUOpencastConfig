@@ -1,3 +1,4 @@
 prod.opencast.env
+prod.db.env
 prod.opensearch.env
 data/

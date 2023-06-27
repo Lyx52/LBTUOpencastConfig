@@ -6,33 +6,42 @@
   <operations>
 	
 	<operation
-      id="analyze-tracks"
-      exception-handler-workflow="partial-error"
-      description="Analyze combined videos">
-      <configurations>
-        <configuration key="source-flavor">*/combined</configuration>
-      </configurations>
+		id="tag"
+		description="Retag media to source for archiving">
+		<configurations>
+			<configuration key="source-flavors">*/combined</configuration>
+			<configuration key="target-tags">+archive</configuration>
+			<configuration key="target-flavor">*/source</configuration>
+		</configurations>
+	</operation>
+
+	<operation
+		id="analyze-tracks"
+		exception-handler-workflow="partial-error"
+		description="Analyze combined source videos">
+		<configurations>
+			<configuration key="source-flavor">*/source</configuration>
+		</configurations>
     </operation>
-	
-	<!-- If we have presenter media and room-composite media, we need to seperate them into two events-->
+
+	<!-- If we have presenter media and room-composite media, we need to seperate them into two events -->
 	<operation
 		id="duplicate-event"
-		if="(${room-composite_combined_media} AND ${presenter_combined_media})"
+		if="(${room-composite_source_media} AND ${presenter_source_media})"
 		description="Duplicate room-composite to seperate event">
-	  <configurations>
-		<configuration key="source-flavors">*/*</configuration>
-		<configuration key="number-of-events">1</configuration>
-		<configuration key="max-number-of-events">1</configuration>
-		<configuration key="no-suffix">true</configuration>
-		<!--<configuration key="copy-number-prefix">Conference room recording</configuration>-->
-		<configuration key="set-title">#{episode.title} (Conference room recording)</configuration>
-		<configuration key="property-namespaces">org.opencastproject.assetmanager.security,org.opencastproject.workflow.configuration</configuration>
-	  </configurations>
+		<configurations>
+			<configuration key="source-flavors">*/*</configuration>
+			<configuration key="number-of-events">1</configuration>
+			<configuration key="max-number-of-events">1</configuration>
+			<configuration key="no-suffix">true</configuration>
+			<configuration key="set-title">#{episode.title} (Conference room recording)</configuration>
+			<configuration key="property-namespaces">org.opencastproject.assetmanager.security,org.opencastproject.workflow.configuration</configuration>
+		</configurations>
 	</operation>
 	
 	<operation 
 		id="start-workflow"
-		if="(${room-composite_combined_media} AND ${presenter_combined_media})"
+		if="(${room-composite_source_media} AND ${presenter_source_media})"
 		description="Start publishing room-composite to seperate event">
 	  <configurations>
 		<configuration key="workflow-definition">lbtu-wf-publish</configuration>
@@ -51,19 +60,19 @@
 			
 			<!-- If room-composite and presenter video exists -->
 			<configuration key="condition-1">
-				(${room-composite_combined_media} AND ${presenter_combined_media})
+				(${room-composite_source_media} AND ${presenter_source_media})
 			</configuration>
 			<configuration key="value-1">presenter</configuration>
 			
 			<!-- If only room-composite video exists -->
 			<configuration key="condition-2">
-				${room-composite_combined_media}
+				${room-composite_source_media}
 			</configuration>
 			<configuration key="value-2">room-composite</configuration>
 			
 			<!-- If only presenter video exists -->
 			<configuration key="condition-3">
-				${presenter_combined_media}
+				${presenter_source_media}
 			</configuration>
 			<configuration key="value-3">presenter</configuration>
 			

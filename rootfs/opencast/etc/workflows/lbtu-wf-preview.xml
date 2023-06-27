@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition xmlns="http://workflow.opencastproject.org">
+	<id>lbtu-wf-preview</id>
+	<title>Create preview artifacts for combined videos</title>
+	<tags/>
+	<description/>
+	<configuration_panel/>
+	<state-mappings>
+		<state-mapping state="running">EVENTS.EVENTS.STATE_MAPPING.UPDATING_PREVIEWS</state-mapping>
+		<state-mapping state="failing">EVENTS.EVENTS.STATE_MAPPING.UPDATING_PREVIEWS</state-mapping>
+	</state-mappings>
+	<operations>
+		<!-- Analyze media assets -->
+
+		<operation
+			id="analyze-tracks"
+			exception-handler-workflow="partial-error"
+			description="Analyze tracks in media package and set control variables">
+			<configurations>
+				<configuration key="source-flavor">*/combined</configuration>
+			</configurations>
+		</operation>
+		
+		<!-- Transcode video previews -->
+
+		<operation
+			id="encode"
+			exception-handler-workflow="partial-error"
+			description="Create preview for videos">
+			<configurations>
+				<configuration key="source-flavors">*/combined</configuration>
+				<configuration key="target-flavor">*/preview</configuration>
+				<configuration key="target-tags">preview</configuration>
+				<configuration key="encoding-profile">mp4-preview.http</configuration>
+			</configurations>
+		</operation>
+
+		<!-- Create audio waveform -->
+
+		<operation
+			id="waveform"
+			exception-handler-workflow="partial-error"
+			description="Generating waveform">
+			<configurations>
+				<configuration key="source-flavor">*/preview</configuration>
+				<configuration key="target-flavor">*/waveform</configuration>
+				<configuration key="target-tags">preview</configuration>
+			</configurations>
+		</operation>
+
+		<!-- VIDEO EDITOR - Preview images -->
+		<operation
+			id="image"
+			exception-handler-workflow="partial-error"
+			description="Create video preview images for videos">
+			<configurations>
+				<configuration key="source-flavor">*/combined</configuration>
+				<configuration key="target-flavor">*/video+preview</configuration>
+				<configuration key="target-tags">preview</configuration>
+				<configuration key="encoding-profile">editor.tracks.preview</configuration>
+				<configuration key="time">50%</configuration>
+			</configurations>
+		</operation>
+
+		<!-- VIDEO EDITOR - Preview audioform waveform -->
+		<operation
+			id="waveform"
+			fail-on-error="false"
+			description="Generating audio preview waveform">
+			<configurations>
+				<configuration key="source-flavor">*/combined</configuration>
+				<configuration key="target-flavor">*/audio+preview</configuration>
+				<configuration key="target-tags">preview</configuration>
+				<configuration key="min-width">688</configuration>
+				<configuration key="max-width">688</configuration>
+				<configuration key="height">58</configuration>
+			</configurations>
+		</operation>
+
+		<!-- Run silence detection -->
+
+		<operation
+			id="silence"
+			if="NOT ${straightToPublishing}"
+			fail-on-error="false"
+			description="Detecting silence">
+			<configurations>
+				<configuration key="source-flavors">*/preview</configuration>
+				<configuration key="smil-flavor-subtype">silence</configuration>
+				<configuration key="reference-tracks-flavor">*/combined</configuration>
+			</configurations>
+		</operation>
+
+		<operation
+			id="tag"
+			if="NOT ${straightToPublishing}"
+			description="Preparing silence detection for preview">
+			<configurations>
+				<configuration key="source-flavors">*/silence</configuration>
+				<configuration key="target-tags">+archive</configuration>
+			</configurations>
+		</operation>
+
+		<!-- Publish previews -->
+
+		<operation
+			id="publish-configure"
+			exception-handler-workflow="partial-error"
+			description="Publish to editor">
+			<configurations>
+				<configuration key="download-source-tags">preview,editor</configuration>
+				<configuration key="channel-id">internal</configuration>
+				<configuration key="url-pattern">
+					${org_org_opencastproject_admin_ui_url!'http://localhost:8080'}/admin-ng/index.html#/events/events/${event_id}/tools/editor
+				</configuration>
+				<configuration key="check-availability">false</configuration>
+			</configurations>
+		</operation>
+	</operations>
+</definition>

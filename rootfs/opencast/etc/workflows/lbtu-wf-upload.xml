@@ -3,6 +3,20 @@
 	<id>lbtu-wf-upload</id>
 	<title>LBTU Conference Upload Workflow</title>
 	<description>Workflow that processes videos from conferences</description>
+	<tags>
+		<tag>upload</tag>
+  	</tags>
+  	<displayOrder>1010</displayOrder>
+  <configuration_panel>
+    <![CDATA[
+      <div id="workflow-configuration">
+        <fieldset>
+          <input id="straightToPublishing" name="straightToPublishing" type="checkbox" class="configField" value="true" />
+          <label for="straightToPublishing">Straight to publishing</label>
+        </fieldset>
+      </div>
+    ]]>
+  </configuration_panel>
 	<operations>
 		<operation
 			id="defaults"
@@ -12,8 +26,9 @@
 			</configurations>
 		</operation>
 	
-		<!--  Ingest videos -->
-	
+		<!-- ########################## -->
+		<!-- # STARTING Ingest videos # -->
+		<!-- ########################## --> 
 		<operation
 			id="include"
 		    description="Finalizes ingesting of conference recordings">
@@ -22,8 +37,24 @@
 			</configurations>
 		</operation>
 	
-		<!--  Combine videos -->
-	
+		<!-- Archive the source material -->
+
+		<operation
+		id="snapshot"
+		description="Archive raw recording after ingest">
+		<configurations>
+			<configuration key="source-flavors">captions/*</configuration>
+			<configuration key="source-tags">archive</configuration>
+		</configurations>
+		</operation>
+		<!-- ######################## -->
+		<!-- # ENDING Ingest videos # -->
+		<!-- ######################## --> 
+		
+
+		<!-- ########################### -->
+		<!-- # STARTING Combine videos # -->
+		<!-- ########################### --> 
 		<operation
 			id="include"
 		    description="Combines presenter and room-composite sources">
@@ -32,11 +63,62 @@
 			</configurations>
 		</operation>
 	
+		<!-- Archive combined files -->
+		<operation
+			id="snapshot"
+			description="Archive combined videos">
+			<configurations>
+				<configuration key="source-tags">archive</configuration>
+			</configurations>
+		</operation>
+		<!-- ######################### -->
+		<!-- # ENDING Combine videos # -->
+		<!-- ######################### --> 
+
+
+		<!-- ########################################### -->
+		<!-- # STARTING Create video preview artifacts # -->
+		<!-- ########################################### --> 
+		<operation
+			id="include"
+		    description="Prepare preview versions of the recording">
+			<configurations>
+				<configuration key="workflow-id">lbtu-wf-preview</configuration>
+			</configurations>
+		</operation>
+
+		<!-- Archive generated preview assets -->
+		<operation
+			id="snapshot"
+			description="Archive preview information">
+			<configurations>
+				<configuration key="source-flavors">captions/*</configuration>
+				<configuration key="source-tags">archive</configuration>
+			</configurations>
+		</operation>
+		<!-- ######################################### -->
+		<!-- # ENDING Create video preview artifacts # -->
+		<!-- ######################################### --> 
+
+		<!-- Mark the recording for cutting -->
+
+		<operation
+		id="comment"
+		if="NOT ${straightToPublishing}"
+		description="Mark the recording for cutting">
+		<configurations>
+			<configuration key="description">Recording has not been cut yet.</configuration>
+			<configuration key="reason">EVENTS.EVENTS.DETAILS.COMMENTS.REASONS.CUTTING</configuration>
+			<configuration key="action">create</configuration>
+		</configurations>
+		</operation>
+
 		<!-- Prepare and publish combined recordings -->
 	
 		<operation
 			id="include"
-			description="Combines presenter and room-composite sources">
+			if="${straightToPublishing}"
+			description="Publishes recordings based on source">
 			<configurations>
 				<configuration key="workflow-id">lbtu-wf-selective-publish</configuration>
 			</configurations>
