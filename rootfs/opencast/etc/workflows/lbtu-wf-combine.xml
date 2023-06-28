@@ -8,16 +8,16 @@
       id="concat"
       description="Concatenate 'presenter' videos, can process up to 10 videos (ALL VIDEOS MUST BE SAME CODEC)!">
       <configurations>
-        <configuration key="source-flavor-part-0">presenter-0/source</configuration>
-		<configuration key="source-flavor-part-1">presenter-1/source</configuration>
-		<configuration key="source-flavor-part-2">presenter-2/source</configuration>
-		<configuration key="source-flavor-part-3">presenter-3/source</configuration>
-		<configuration key="source-flavor-part-4">presenter-4/source</configuration>
-		<configuration key="source-flavor-part-5">presenter-5/source</configuration>
-		<configuration key="source-flavor-part-6">presenter-6/source</configuration>
-		<configuration key="source-flavor-part-7">presenter-7/source</configuration>
-		<configuration key="source-flavor-part-8">presenter-8/source</configuration>
-		<configuration key="source-flavor-part-9">presenter-9/source</configuration>
+        <configuration key="source-flavor-part-0">presenter-0/part</configuration>
+		<configuration key="source-flavor-part-1">presenter-1/part</configuration>
+		<configuration key="source-flavor-part-2">presenter-2/part</configuration>
+		<configuration key="source-flavor-part-3">presenter-3/part</configuration>
+		<configuration key="source-flavor-part-4">presenter-4/part</configuration>
+		<configuration key="source-flavor-part-5">presenter-5/part</configuration>
+		<configuration key="source-flavor-part-6">presenter-6/part</configuration>
+		<configuration key="source-flavor-part-7">presenter-7/part</configuration>
+		<configuration key="source-flavor-part-8">presenter-8/part</configuration>
+		<configuration key="source-flavor-part-9">presenter-9/part</configuration>
 		
         <configuration key="source-flavor-part-0-mandatory">true</configuration>
 		<configuration key="source-flavor-part-1-mandatory">false</configuration>
@@ -30,7 +30,7 @@
 		<configuration key="source-flavor-part-8-mandatory">false</configuration>
 		<configuration key="source-flavor-part-9-mandatory">false</configuration>
 		
-		<configuration key="target-flavor">presenter/combined</configuration>
+		<configuration key="target-flavor">presenter/source</configuration>
 		<configuration key="target-tags">combined,archive</configuration>
 		<configuration key="encoding-profile">concat.work</configuration>
 		<configuration key="output-resolution">part-0</configuration>
@@ -44,16 +44,16 @@
       id="concat"
       description="Concatenate 'room-composite' videos, can process up to 10 videos (ALL VIDEOS MUST BE SAME CODEC)!">
       <configurations>
-        <configuration key="source-flavor-part-0">room-composite-0/source</configuration>
-		<configuration key="source-flavor-part-1">room-composite-1/source</configuration>
-		<configuration key="source-flavor-part-2">room-composite-2/source</configuration>
-		<configuration key="source-flavor-part-3">room-composite-3/source</configuration>
-		<configuration key="source-flavor-part-4">room-composite-4/source</configuration>
-		<configuration key="source-flavor-part-5">room-composite-5/source</configuration>
-		<configuration key="source-flavor-part-6">room-composite-6/source</configuration>
-		<configuration key="source-flavor-part-7">room-composite-7/source</configuration>
-		<configuration key="source-flavor-part-8">room-composite-8/source</configuration>
-		<configuration key="source-flavor-part-9">room-composite-9/source</configuration>
+        <configuration key="source-flavor-part-0">room-composite-0/part</configuration>
+		<configuration key="source-flavor-part-1">room-composite-1/part</configuration>
+		<configuration key="source-flavor-part-2">room-composite-2/part</configuration>
+		<configuration key="source-flavor-part-3">room-composite-3/part</configuration>
+		<configuration key="source-flavor-part-4">room-composite-4/part</configuration>
+		<configuration key="source-flavor-part-5">room-composite-5/part</configuration>
+		<configuration key="source-flavor-part-6">room-composite-6/part</configuration>
+		<configuration key="source-flavor-part-7">room-composite-7/part</configuration>
+		<configuration key="source-flavor-part-8">room-composite-8/part</configuration>
+		<configuration key="source-flavor-part-9">room-composite-9/part</configuration>
 		
         <configuration key="source-flavor-part-0-mandatory">true</configuration>
 		<configuration key="source-flavor-part-1-mandatory">false</configuration>
@@ -66,7 +66,7 @@
 		<configuration key="source-flavor-part-8-mandatory">false</configuration>
 		<configuration key="source-flavor-part-9-mandatory">false</configuration>
 		
-		<configuration key="target-flavor">room-composite/combined</configuration>
+		<configuration key="target-flavor">room-composite/source</configuration>
 		<configuration key="target-tags">combined,archive</configuration>
 		<configuration key="encoding-profile">concat.work</configuration>
 		<configuration key="output-resolution">part-0</configuration>
@@ -81,7 +81,7 @@
 		id="tag"
 		description="Remove source files from archive">
 		<configurations>
-		<configuration key="source-flavors">*/source</configuration>
+		<configuration key="source-flavors">*/part</configuration>
 		<configuration key="target-tags">-archive</configuration>
 		</configurations>
 	</operation>

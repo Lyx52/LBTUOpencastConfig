@@ -17,7 +17,7 @@
 			exception-handler-workflow="partial-error"
 			description="Analyze tracks in media package and set control variables">
 			<configurations>
-				<configuration key="source-flavor">*/combined</configuration>
+				<configuration key="source-flavor">*/source</configuration>
 			</configurations>
 		</operation>
 		
@@ -28,7 +28,7 @@
 			exception-handler-workflow="partial-error"
 			description="Create preview for videos">
 			<configurations>
-				<configuration key="source-flavors">*/combined</configuration>
+				<configuration key="source-flavors">*/source</configuration>
 				<configuration key="target-flavor">*/preview</configuration>
 				<configuration key="target-tags">preview</configuration>
 				<configuration key="encoding-profile">mp4-preview.http</configuration>
@@ -54,7 +54,7 @@
 			exception-handler-workflow="partial-error"
 			description="Create video preview images for videos">
 			<configurations>
-				<configuration key="source-flavor">*/combined</configuration>
+				<configuration key="source-flavor">*/source</configuration>
 				<configuration key="target-flavor">*/video+preview</configuration>
 				<configuration key="target-tags">preview</configuration>
 				<configuration key="encoding-profile">editor.tracks.preview</configuration>
@@ -68,7 +68,7 @@
 			fail-on-error="false"
 			description="Generating audio preview waveform">
 			<configurations>
-				<configuration key="source-flavor">*/combined</configuration>
+				<configuration key="source-flavor">*/source</configuration>
 				<configuration key="target-flavor">*/audio+preview</configuration>
 				<configuration key="target-tags">preview</configuration>
 				<configuration key="min-width">688</configuration>
@@ -87,7 +87,7 @@
 			<configurations>
 				<configuration key="source-flavors">*/preview</configuration>
 				<configuration key="smil-flavor-subtype">silence</configuration>
-				<configuration key="reference-tracks-flavor">*/combined</configuration>
+				<configuration key="reference-tracks-flavor">*/source</configuration>
 			</configurations>
 		</operation>
 

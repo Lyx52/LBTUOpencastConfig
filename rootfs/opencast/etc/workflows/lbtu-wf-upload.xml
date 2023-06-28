@@ -26,9 +26,7 @@
 			</configurations>
 		</operation>
 	
-		<!-- ########################## -->
-		<!-- # STARTING Ingest videos # -->
-		<!-- ########################## --> 
+		<!-- Ingest videos -->
 		<operation
 			id="include"
 		    description="Finalizes ingesting of conference recordings">
@@ -47,14 +45,8 @@
 			<configuration key="source-tags">archive</configuration>
 		</configurations>
 		</operation>
-		<!-- ######################## -->
-		<!-- # ENDING Ingest videos # -->
-		<!-- ######################## --> 
 		
-
-		<!-- ########################### -->
-		<!-- # STARTING Combine videos # -->
-		<!-- ########################### --> 
+		<!-- Combine videos -->
 		<operation
 			id="include"
 		    description="Combines presenter and room-composite sources">
@@ -71,23 +63,18 @@
 				<configuration key="source-tags">archive</configuration>
 			</configurations>
 		</operation>
-		<!-- ######################### -->
-		<!-- # ENDING Combine videos # -->
-		<!-- ######################### --> 
 
-
-		<!-- ########################################### -->
-		<!-- # STARTING Create video preview artifacts # -->
-		<!-- ########################################### --> 
+		<!-- Create video preview artifacts -->
 		<operation
 			id="include"
-		    description="Prepare preview versions of the recording">
+			description="Prepare preview versions of the recording">
 			<configurations>
 				<configuration key="workflow-id">lbtu-wf-preview</configuration>
 			</configurations>
 		</operation>
 
 		<!-- Archive generated preview assets -->
+
 		<operation
 			id="snapshot"
 			description="Archive preview information">
@@ -96,9 +83,6 @@
 				<configuration key="source-tags">archive</configuration>
 			</configurations>
 		</operation>
-		<!-- ######################################### -->
-		<!-- # ENDING Create video preview artifacts # -->
-		<!-- ######################################### --> 
 
 		<!-- Mark the recording for cutting -->
 
@@ -113,14 +97,37 @@
 		</configurations>
 		</operation>
 
-		<!-- Prepare and publish combined recordings -->
-	
+		<!-- Publish to engage -->
 		<operation
 			id="include"
 			if="${straightToPublishing}"
-			description="Publishes recordings based on source">
+			description="Publish the recording">
 			<configurations>
-				<configuration key="workflow-id">lbtu-wf-selective-publish</configuration>
+				<configuration key="workflow-id">partial-publish</configuration>
+			</configurations>
+		</operation>
+
+		<!-- Archive the recording -->
+
+		<operation
+			id="snapshot"
+			if="${straightToPublishing}"
+			description="Archive publishing information">
+			<configurations>
+				<configuration key="source-flavors">captions/*</configuration>
+				<configuration key="source-tags">archive</configuration>
+			</configurations>
+		</operation>
+
+		<!-- Clean up work artifacts -->
+
+		<operation
+			id="cleanup"
+			fail-on-error="false"
+			description="Remove temporary processing artifacts">
+			<configurations>
+				<configuration key="delete-external">true</configuration>
+				<configuration key="preserve-flavors">security/*</configuration>
 			</configurations>
 		</operation>
 	</operations>
