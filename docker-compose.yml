@@ -4,26 +4,30 @@ volumes:
   opensearch: {}
   data: {}
   pgdata: {}
-
 services:
   opensearch:
     image: opensearchproject/opensearch:1
+    restart: always
     env_file:
       - prod.opensearch.env
     volumes:
       - opensearch:/usr/share/opensearch/data
-
   opencast:
     image: lbtu-opencast:latest
+    restart: always
     env_file:
       - prod.opencast.env
     ports:
       - "8080:8080"
     volumes:
       - ./data:/data
-  postgresql:
+    depends_on:
+      - postgres
+      - opensearch
+  postgres:
     image: postgres:13-alpine
+    restart: always
     env_file:
       - prod.db.env
     volumes:
-      - db:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data

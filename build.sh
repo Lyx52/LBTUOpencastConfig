@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir data
-
+chmod 777 data/
 OPENCAST_REPO=https://github.com/opencast/opencast.git
 OPENCAST_VERSION=13.6
 FFMPEG_VERSION=latest
