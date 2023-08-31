@@ -6,7 +6,7 @@
 	<!-- Combine all presenter-X/source videos into one -->
     <operation
       id="concat"
-      description="Concatenate 'presenter' videos, can process up to 20 videos (ALL VIDEOS MUST BE SAME CODEC)!">
+      description="Concatenate 'presenter' videos, can process up to 10 videos (ALL VIDEOS MUST BE SAME CODEC)!">
       <configurations>
         <configuration key="source-flavor-part-0">presenter-0/part</configuration>
 		<configuration key="source-flavor-part-1">presenter-1/part</configuration>
@@ -18,16 +18,6 @@
 		<configuration key="source-flavor-part-7">presenter-7/part</configuration>
 		<configuration key="source-flavor-part-8">presenter-8/part</configuration>
 		<configuration key="source-flavor-part-9">presenter-9/part</configuration>
-		<configuration key="source-flavor-part-10">presenter-10/part</configuration>
-		<configuration key="source-flavor-part-11">presenter-11/part</configuration>
-		<configuration key="source-flavor-part-12">presenter-12/part</configuration>
-		<configuration key="source-flavor-part-13">presenter-13/part</configuration>
-		<configuration key="source-flavor-part-14">presenter-14/part</configuration>
-		<configuration key="source-flavor-part-15">presenter-15/part</configuration>
-		<configuration key="source-flavor-part-16">presenter-16/part</configuration>
-		<configuration key="source-flavor-part-17">presenter-17/part</configuration>
-		<configuration key="source-flavor-part-18">presenter-18/part</configuration>
-		<configuration key="source-flavor-part-19">presenter-19/part</configuration>
 
         <configuration key="source-flavor-part-0-mandatory">true</configuration>
 		<configuration key="source-flavor-part-1-mandatory">false</configuration>
@@ -39,16 +29,6 @@
 		<configuration key="source-flavor-part-7-mandatory">false</configuration>
 		<configuration key="source-flavor-part-8-mandatory">false</configuration>
 		<configuration key="source-flavor-part-9-mandatory">false</configuration>
-		<configuration key="source-flavor-part-10-mandatory">true</configuration>
-		<configuration key="source-flavor-part-11-mandatory">false</configuration>
-		<configuration key="source-flavor-part-12-mandatory">false</configuration>
-		<configuration key="source-flavor-part-13-mandatory">false</configuration>
-		<configuration key="source-flavor-part-14-mandatory">false</configuration>
-		<configuration key="source-flavor-part-15-mandatory">false</configuration>
-		<configuration key="source-flavor-part-16-mandatory">false</configuration>
-		<configuration key="source-flavor-part-17-mandatory">false</configuration>
-		<configuration key="source-flavor-part-18-mandatory">false</configuration>
-		<configuration key="source-flavor-part-19-mandatory">false</configuration>
 		
 		<configuration key="target-flavor">presenter/source</configuration>
 		<configuration key="target-tags">combined,archive</configuration>
